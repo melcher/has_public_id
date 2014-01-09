@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
   s.summary     = "Random, unique identifiers for activerecord models"
   s.description = "Allows for the easy creation and use of random, unique record identifiers so external entities cannot make inferences about your data based on sequential ID's"
 
-  s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
+  s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
   s.test_files = Dir["test/**/*"]
 
   s.add_dependency "rails", "~> 4.0.2"
