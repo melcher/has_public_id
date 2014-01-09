@@ -1,10 +1,10 @@
-= Public Id
+# Public Id
 
-== Description
+## Description
 
 Simplifies the generation and use of random, secure ID's in your activerecord models.
 
-== Usage
+## Usage
 
 ```sh
 # Identifier column MUST be a string
@@ -34,7 +34,7 @@ There's a few other convenience methods that you may find useful.
   # Useful when migrating existing records
 ```
 
-=== Configuration
+### Configuration
 
 By default, ID's have 2 components.
 A 3 character lowercase prefix of their originating class name and a suffix of a 14 character random, unique, base64 url safe string.
@@ -47,7 +47,7 @@ You can configure them using the following:
   publically_identified_by other_column_name, variable_length: 15, prefix: 'user_'
 ```
 
-= Contribute
+# Contribute
 
   * Fork this project
   * Add tests
