@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    public_id (1.0.2)
+    has_public_id (1.0.2)
       rails (~> 4.0.2)
 
 GEM
@@ -84,5 +84,5 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  public_id!
+  has_public_id!
   sqlite3

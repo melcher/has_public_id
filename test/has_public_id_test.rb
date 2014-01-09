@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class PublicIdTest < ActiveSupport::TestCase
+class HasPublicIdTest < ActiveSupport::TestCase
   fixtures :all
   self.use_transactional_fixtures = true
 

@@ -1,4 +1,4 @@
-module PublicId
+module HasPublicId
   module ActiveRecord
     module InstanceMethods
       def to_param
@@ -12,7 +12,7 @@ module PublicId
         self.send("#{public_id_attr}=", self.class.new_public_id)
       end
     end
-    module PublicallyIdentifiedBy
+    module Mixin
       extend ActiveSupport::Concern
       included do
       end
@@ -38,7 +38,7 @@ module PublicId
             end
             def new_public_id
               while(true)
-                new_id = ::PublicId::Util.new_public_id(self, self.public_id_options)
+                new_id = ::HasPublicId::Util.new_public_id(self, self.public_id_options)
                 break unless where(self.public_id_attr => new_id).exists?
               end
               return new_id
@@ -46,7 +46,7 @@ module PublicId
           end
           self.public_id_attr     = attribute_name
           self.public_id_options  = options
-          include ::PublicId::ActiveRecord::InstanceMethods
+          include ::HasPublicId::ActiveRecord::InstanceMethods
           after_initialize :initialize_public_id
         end
       end

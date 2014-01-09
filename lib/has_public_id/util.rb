@@ -1,4 +1,4 @@
-module PublicId
+module HasPublicId
   module Util
     def self.generate_random_suffix(length)
       SecureRandom.urlsafe_base64(length)
