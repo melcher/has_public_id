@@ -24,7 +24,7 @@ rails generate migration add_ident_to_users ident:string
 Tell your activerecord object that ident is your new public identifier.
 ```ruby
 class User < ActiveRecord::Base
-  publically_identified_by :ident
+  has_public_id :ident
   # Automatically defines to_param as :ident
 end
 User.new.ident
@@ -56,7 +56,7 @@ There's a few other convenience methods that you may find useful.
 
   * Get a new random ID for your own nefarious purposes:
 
-  ``` User.new_public_identifier ```
+  ``` User.new_public_id ```
 
 ### Configuration
 
@@ -66,11 +66,11 @@ The suffix and prefix are joined by a dash.
 
 You can skip the prefix alltogether:
 ```ruby
-  publically_identified_by column_name, length: 10, prefix: false
+  has_public_id column_name, length: 10, prefix: false
 ```
 or set it directly:
 ```
-  publically_identified_by other_column_name, length: 15, prefix: 'user_'
+  has_public_id other_column_name, length: 15, prefix: 'user_'
 ```
 The "length" option refers to the length argument passed to SecureRandom. The actual length
 of the random base64 string will be about 4/3's this length. The defaults to 10, for a
