@@ -11,13 +11,13 @@ Simplifies the generation and use of random, secure ID's in your activerecord mo
 rails generate migration add_ident_to_users ident:string
 ```
 
-```ruby app/models/user.rb
+```ruby 
 class User < ActiveRecord::Base
   publically_identified_by :ident
   # Automatically defines to_param as :ident
 end
 ```
-```ruby app/controllers/user_controller.rb
+```ruby 
 class UserController < ApplicationController
   def show
     User.find_by_public_id(params[:id])
