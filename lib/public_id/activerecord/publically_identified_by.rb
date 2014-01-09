@@ -21,7 +21,7 @@ module PublicId
           return if respond_to?(:public_identifier_attribute)
           options = args.extract_options!
           class << self
-            attr_accessor :public_identifier_attribute
+            attr_accessor :public_identifier_attribute, :public_identifier_options
             # def public_identifier
             #   @public_identifier
             # end
@@ -38,13 +38,14 @@ module PublicId
             end
             def new_public_identifier
               while(true)
-                new_id = ::PublicId::Util.new_public_identifier(self)
+                new_id = ::PublicId::Util.new_public_identifier(self, self.public_identifier_options)
                 break unless where(self.public_identifier_attribute => new_id).exists?
               end
               return new_id
             end
           end
           self.public_identifier_attribute = attribute_name
+          self.public_identifier_options = options
           include ::PublicId::ActiveRecord::InstanceMethods
           after_initialize :initialize_public_id
         end
