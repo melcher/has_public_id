@@ -1,3 +1,3 @@
 class User < ActiveRecord::Base
-  publically_identified_by :ident
+  has_public_id :ident
 end
