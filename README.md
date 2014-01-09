@@ -13,6 +13,10 @@ with the default settings.
 Even so, the plugin is smart enough to discard ID's that are already in use for
 a given model and try again.
 
+## Installation
+Add to Gemfile / etc
+  gem 'public_id'
+
 ## Usage
 
 Add an additional identifier column. I called it "ident", but call it whatever you want.
