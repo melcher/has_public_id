@@ -6,33 +6,44 @@ Simplifies the generation and use of random, secure ID's in your activerecord mo
 
 ## Usage
 
+Add an additional identifier column. I called it "ident", but call it whatever you want.
 ```sh
 # Identifier column MUST be a string
 rails generate migration add_ident_to_users ident:string
 ```
 
-```ruby 
+Tell your activerecord object that ident is your new public identifier.
+```ruby
 class User < ActiveRecord::Base
   publically_identified_by :ident
   # Automatically defines to_param as :ident
 end
 ```
-```ruby 
+
+Now change your controllers to lookup the public ID instead of your database ID
+```ruby
 class UserController < ApplicationController
   def show
     User.find_by_public_id(params[:id])
-    # Or User.where(ident: params[:id])
+    # Or User.find_by_ident(params[:id])
     # Nothing fancy here
   end
 end
 ```
 
 There's a few other convenience methods that you may find useful.
-```ruby
-  User.initialize_public_ids! 
-  # Sets public_id's on any resources with nil public_ids.
-  # Useful when migrating existing records
-```
+
+ * Initialize ID's for existing records, useful in a migration.
+
+    ```ruby
+      def change
+        add_column :users, :ident, :string
+        User.initialize_public_ids!
+      end
+    ```
+  * Get a new random ID for your own nefarious purposes:
+
+  ``` User.new_public_identifier ```
 
 ### Configuration
 
