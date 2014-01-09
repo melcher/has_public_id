@@ -1,4 +1,4 @@
-require 'public_id/activerecord/publically_identified_by'
+require 'public_id/activerecord/has_public_id'
 require 'public_id/util'
 
 module PublicId

@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    public_id (0.0.1)
+    public_id (1.0.0)
       rails (~> 4.0.2)
 
 GEM

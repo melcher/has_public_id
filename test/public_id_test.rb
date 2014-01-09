@@ -4,8 +4,8 @@ class PublicIdTest < ActiveSupport::TestCase
   fixtures :all
   self.use_transactional_fixtures = true
 
-  test "ActiveRecord::Base responds to publically_identified_by" do
-    assert User.respond_to?(:publically_identified_by), "should respond to the method we define"
+  test "ActiveRecord::Base responds to publicalhas_public_idly_identified_by" do
+    assert User.respond_to?(:has_public_id), "should respond to the method we define"
   end
 
   test "New users get an ID initialized" do
