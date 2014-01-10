@@ -36,6 +36,9 @@ module HasPublicId
             def find_by_public_id(public_id)
               where(self.public_id_attr => public_id).first
             end
+            def find_by_public_id!(public_id)
+              where(self.public_id_attr => public_id).first!
+            end
             def new_public_id
               while(true)
                 new_id = ::HasPublicId::Util.new_public_id(self, self.public_id_options)

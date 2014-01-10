@@ -1,39 +1,51 @@
 require 'test_helper'
 
 class HasPublicIdTest < ActiveSupport::TestCase
-  fixtures :all
-  self.use_transactional_fixtures = true
-
-  test "ActiveRecord::Base responds to publicalhas_public_idly_identified_by" do
-    assert User.respond_to?(:has_public_id), "should respond to the method we define"
+  test "Mixin" do
+    assert ActiveRecord::Base.respond_to?(:has_public_id), "should respond to the method we define"
   end
 
-  test "New users get an ID initialized" do
-    assert User.new.ident.present?, "should have an id when initialized"
-    assert_equal User.new.ident.first(4), 'use-', "should have a 3 letter prefix from the class name"
+end
+
+class HasPublicId::UtilTest < ActiveSupport::TestCase
+  test "char_set.length" do
+    assert_equal 62, HasPublicId::Util.char_set.length
   end
-  test "Ident should == to_param" do
-    u = User.new
-    assert_equal u.ident, u.to_param, "should match to_param"
+
+  test "generate_random_suffix" do
+    keys = {}
+    1000.times do |i|
+      # 62 ^ 10 possibiliities
+      suffix = HasPublicId::Util.generate_random_suffix(10)
+      assert_nil keys[suffix], "#{suffix} is a duplicate!"
+      keys[suffix] = i
+    end
   end
-  test "Doesn't change on save, update" do
-    u = User.new
-    identifier = u.ident
-    u.save!
-    u.reload
-    assert_equal identifier, u.ident, "doesn't match after create"
-    u.save!
-    u.reload
-    assert_equal identifier, u.ident, "doesn't match after update"
+  test "generate_random_suffix(length)" do
+    assert_equal 10, HasPublicId::Util.generate_random_suffix(10).length
+    assert_equal 15, HasPublicId::Util.generate_random_suffix(15).length
   end
-  test "Can be looked up by the ident" do
-    u = User.create(name: 'joey')
-    assert_equal u, User.find_by_public_id(u.to_param), "Can't be looked up by #{u.to_param}"
+  test "new_public_id(with_prefix)" do
+    key = HasPublicId::Util.new_public_id(User, length: 10, prefix: 'user')
+    assert_equal('user-', key.first(5), "prefix option")
   end
-  test "Initialize all the public id's" do
-    # From fixtures...
-    assert_equal 3, User.where(ident: nil).count
-    User.initialize_public_ids!
-    assert_equal User.where(ident: nil).count, 0
+  test "new_public_id(with_false_prefix)" do
+    key = HasPublicId::Util.new_public_id(User, length: 10, prefix: false)
+    assert key.match(/^[a-zA-Z0-9]{10}$/), "#{key} doesn't match 10 random alphanumerics"
+    assert_equal(10, key.length, "prefix: false")
+  end
+  test "new_public_id(with_nil_prefix)" do
+    key = HasPublicId::Util.new_public_id(User, length: 10, prefix: nil)
+    assert key.match(/^[a-zA-Z0-9]{10}$/), "#{key} doesn't match 10 random alphanumerics"
+    assert_equal(10, key.length, "prefix: nil")
+  end
+  test "new_public_id(with_blank_prefix)" do
+    key = HasPublicId::Util.new_public_id(User, length: 10, prefix: '')
+    assert key.match(/^[a-zA-Z0-9]{10}$/), "#{key} doesn't match 10 random alphanumerics"
+    assert_equal(10, key.length, "prefix: ''")
+  end
+  test "new_public_id(with_join_with)" do
+    key = HasPublicId::Util.new_public_id(User, length: 10, join_with: '_')
+    assert_equal('use_', key.first(4))
   end
 end

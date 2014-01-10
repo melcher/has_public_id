@@ -2,20 +2,17 @@
 
 ## Description
 
-Simplifies the generation and use of random, secure ID's in your activerecord models.
+Simplifies the generation and use of unique, random identifiers for ActiveRecord models.
 
-Uses SecureRandom.urlsafe_base64(10) by default, which generates a 14 character
-base 64 encoded string with the following characters: a-z, A-Z, 0-10, "-" and "_".
+We generate a string of random (using SecureRandom) alphanumeric characters (a-z, A-Z, 0-9) along with an optional prefix that defaults to the first 3 characters of the model name. The random string has a default length of 12, providing 62 ^ 12 possible strings.
 
-Assuming an even distribution, this allows for 64 ^ 14 different possible encodings
-with the default settings.
-
-Even so, the plugin is smart enough to discard ID's that are already in use for
-a given model and try again.
+On assignment to the model, if duplicate ID is detected in
+the database, a new random identifier is generated.
 
 ## Installation
 Add to Gemfile / etc
-  gem 'public_id'
+
+    gem 'public_id'
 
 ## Usage
 
@@ -28,11 +25,11 @@ rails generate migration add_ident_to_users ident:string
 Tell your activerecord object that ident is your new public identifier.
 ```ruby
 class User < ActiveRecord::Base
-  has_public_id :ident
+  has_public_id :ident, prefix: 'user'
   # Automatically defines to_param as :ident
 end
 User.new.ident
-# => "use-ECNrdIzvCBh8jg"
+# => "user-ECNrdIzvCBh8"
 
 ```
 
