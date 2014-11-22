@@ -57,6 +57,7 @@ class UserTest < ActiveSupport::TestCase
     grouped.map(&:count).each do |count|
       assert_equal count, 1
     end
+    assert_equal grouped[0].has_attribute?(:ident), false
   end
 
 end

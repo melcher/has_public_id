@@ -8,8 +8,10 @@ module HasPublicId
         self.class.public_id_attr
       end
       def initialize_public_id
-        read_attribute(public_id_attr) or
-        write_attribute(public_id_attr, self.class.new_public_id)
+        if has_attribute?(public_id_attr)
+          read_attribute(public_id_attr) or
+          write_attribute(public_id_attr, self.class.new_public_id)
+        end
       end
     end
     module Mixin
