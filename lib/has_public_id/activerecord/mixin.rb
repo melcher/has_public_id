@@ -8,8 +8,8 @@ module HasPublicId
         self.class.public_id_attr
       end
       def initialize_public_id
-        self.send(public_id_attr) or
-        self.send("#{public_id_attr}=", self.class.new_public_id)
+        read_attribute(public_id_attr) or
+        write_attribute(public_id_attr, self.class.new_public_id)
       end
     end
     module Mixin
@@ -20,25 +20,25 @@ module HasPublicId
         def has_public_id(attribute_name, *args)
           return if respond_to?(:public_id_attribute)
           options = args.extract_options!
+
+          class_attribute :public_id_attr, :public_id_options
+
           class << self
-            attr_accessor :public_id_attr, :public_id_options
-            # def public_identifier
-            #   @public_identifier
-            # end
-            # def public_identifier=(attribute_name)
-            #   @public_identifier = attribute_name
-            # end
+
             def initialize_public_ids!
               self.where(self.public_id_attr => nil).find_each do |obj|
                 obj.update_attribute(self.public_id_attr, self.new_public_id)
               end
             end
+
             def find_by_public_id(public_id)
               where(self.public_id_attr => public_id).first
             end
+
             def find_by_public_id!(public_id)
               where(self.public_id_attr => public_id).first!
             end
+
             def new_public_id
               while(true)
                 new_id = ::HasPublicId::Util.new_public_id(self, self.public_id_options)

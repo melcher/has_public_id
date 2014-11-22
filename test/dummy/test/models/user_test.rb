@@ -50,4 +50,13 @@ class UserTest < ActiveSupport::TestCase
     assert_equal User.where(ident: nil).count, 0
   end
 
+  test "use group-by sql" do
+    grouped = User.select('name, count(name) as count').group('name')
+    assert_equal grouped.length, User.all.map(&:name).count
+    assert_equal grouped.map(&:name).sort, User.all.map(&:name).uniq.sort
+    grouped.map(&:count).each do |count|
+      assert_equal count, 1
+    end
+  end
+
 end
