@@ -42,9 +42,10 @@ module HasPublicId
             end
 
             def new_public_id
-              while(true)
-                new_id = ::HasPublicId::Util.new_public_id(self, self.public_id_options)
+              new_id = ::HasPublicId::Util.new_public_id(self, self.public_id_options)
+              while(self.public_id_options[:check_unique])
                 break unless where(self.public_id_attr => new_id).exists?
+                new_id = ::HasPublicId::Util.new_public_id(self, self.public_id_options)
               end
               return new_id
             end
