@@ -38,6 +38,9 @@ module HasPublicId
             end
 
             def find_by_public_id!(public_id)
+              if public_id.blank?
+                raise ::ActiveRecord::RecordNotFound.new("Couldn't find #{self.name} without an ID")
+              end
               where(self.public_id_attr => public_id).first or
                 raise ::ActiveRecord::RecordNotFound.new("Couldn't find #{self.name} with #{public_id}")
             end

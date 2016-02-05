@@ -41,6 +41,7 @@ class UserTest < ActiveSupport::TestCase
     u = User.create(name: 'joey')
     assert_equal u, User.find_by_public_id!(u.to_param), "Can't be looked up by #{u.to_param}"
     assert_raises(ActiveRecord::RecordNotFound){ User.find_by_public_id!('bad_key') }
+    assert_raises(ActiveRecord::RecordNotFound){ User.find_by_public_id!(nil) }
   end
 
   test "initialize_public_ids!" do
