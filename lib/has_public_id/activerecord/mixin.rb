@@ -39,7 +39,7 @@ module HasPublicId
 
             def find_by_public_id!(public_id)
               where(self.public_id_attr => public_id).first or
-                raise ActiveRecord::RecordNotFound.new("Couldn't find #{self.name} with #{public_id}")
+                raise ::ActiveRecord::RecordNotFound.new("Couldn't find #{self.name} with #{public_id}")
             end
 
             def new_public_id
