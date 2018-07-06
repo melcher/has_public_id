@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
   s.test_files = Dir["test/**/*"]
 
   s.licenses    = ['MIT']
-  s.add_dependency "rails", "~> 4.0"
+  s.add_dependency "activerecord", ">= 4.0", "<= 5.1"
 
   s.add_development_dependency "sqlite3"
 end
